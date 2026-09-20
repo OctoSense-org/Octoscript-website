@@ -1,0 +1,17 @@
+node_modules/
+dist/
+dist-*/
+.astro/
+.env
+.env.*
+!.env.example
+test-results/
+playwright-report/
+artifacts/
+.DS_Store
+
+demos/component-lab/target/
+demos/component-lab/Cargo.toml
+demos/component-lab/.cargo/
+
+__pycache__/

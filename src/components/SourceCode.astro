@@ -1,0 +1,11 @@
+---
+interface Props { source: string; }
+const { source } = Astro.props;
+// Highlight the checked repository fixture; keep its text and line breaks intact.
+const tokens = source.split(/("(?:\\.|[^"\\])*"|\b(?:use|let)\b|\b(?:tool|mod)\b|\bcall\b)/g);
+const tokenClass = (token: string) => token.startsWith('"') ? 'syntax-string'
+  : /^(use|let)$/.test(token) ? 'syntax-keyword'
+  : /^(tool|mod)$/.test(token) ? 'syntax-module'
+  : token === 'call' ? 'syntax-function' : undefined;
+---
+<code>{tokens.map(token => <span class={tokenClass(token)}>{token}</span>)}</code>

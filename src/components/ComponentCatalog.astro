@@ -1,0 +1,36 @@
+---
+import {type Locale} from '../data/content';
+interface Props {locale:Locale;}
+const {locale}=Astro.props;
+const cn=locale==='cn';
+const groups=[
+ {family:'L0',name:cn?'布局与结构':'Layout & structure',items:'Surface Panel Card Col Row Grid Reveal Rule Space Band Bubble TabBar Tab',note:cn?'主题决定外观；卡片声明结构与语义。':'Themes own presentation; cards declare structure and meaning.'},
+ {family:'L0',name:cn?'文本与数据':'Text & data',items:'TextHero TextTitle TextBody TextStat TextRow TextEyebrow TextCaption TextValue Tile',note:cn?'业务值绑定数据源；文案声明来源与语言。':'Business values bind sources; copy declares origin and language.'},
+ {family:'L0',name:cn?'输入、操作与媒体':'Input, actions & media',items:'Field Chip Fab Icon Avatar Photo Thumb Map',note:cn?'事件绑定有限转换；地图和图片需要宿主数据。':'Events bind total transitions; maps and images need host data.'},
+ {family:'L0',name:cn?'图表与环境':'Charts & environment',items:'WeatherIcon TempBar SunArc MoonPhase Satellite AqiContour IndicatorPlot StockPlot',note:cn?'按声明的地点、时间或标识获取数据；需要后端能力。':'Resolve declared locations, periods or identifiers through host capabilities.'},
+ {family:'Material',name:cn?'已接线的状态控件':'State-wired controls',items:'button chip checkbox segmented tabs',note:cn?'既写 slot，也读回状态。本页演示其中的按钮、chip、checkbox 与分段选择。':'Write and read state slots. The lab exercises buttons, chips, checkbox and segmented selection.'},
+ {family:'Material',name:cn?'内容与布局':'Content & layout',items:'scroll col row flow stack spacer text card divider badgeicon image',note:cn?'Material 3 角色与变体；尺寸、颜色、字重由 renderer 管理。':'Material 3 roles and variants; the renderer supplies geometry, color and weight.'},
+ {family:'Material',name:cn?'需要逐宿主验证':'Verify per host',items:'toggle radio slider input listitem fab progress searchbar dropdown datepicker timepicker navbar navrail carousel',note:cn?'名称和视觉实现不保证完整事件接线；详见本页支持说明。':'Names and visuals do not guarantee complete event wiring; see the support notes.'},
+ {family:'Design kits',name:cn?'原生完整组件':'Complete native compositions',items:'KitButton KitFormField KitTabBar KitBottomNavigation TaskplanProjectCard CamoTrackRow',note:cn?'绑定原生 Button、TextInput、选择与导航事件，保留命名子部件。':'Native buttons, text input, selection and navigation retain named source parts.'},
+ {family:'Design kits',name:cn?'公共主题角色':'Public theme roles',items:'TaskplanButton AtroButton CamoButton TaskplanFormField AtroFormField CamoFormField TaskplanTabBar AtroTabBar CamoTabBar CamoBottomNavigation',note:cn?'注册的主题族；props、槽位与 token 由 kit 契约校验。':'Registered theme families; kit contracts validate props, slots and tokens.'},
+ {family:'Flutter',name:cn?'示例设计':'Example designs',items:'material_3_demo cupertino_gallery form_app date_planner compass_app platform_design desktop_photo_search testing_app navigation_and_routing animations dynamic_theme veggieseasons',note:cn?'Octoscript 重建示例，交互覆盖各不相同；不是 Flutter Engine。':'Octoscript recreations with varying interaction coverage; no Flutter Engine.'},
+ {family:'Flutter',name:cn?'能力与技术示例':'Capability & technical examples',items:'google_maps platform_channels pedometer background_isolate_channels asset_transformation platform_view_swift web_embedding simple_shader simple_sdf add_to_app',note:cn?'部分依赖设备桥接，浏览器没有相应能力时会说明不可用。':'Some require a device bridge; browser-unavailable capabilities are identified.'},
+ {family:'Charts',name:cn?'扩展图表库':'Chart extensions',items:'makepad-plot makepad-d3',note:cn?'分别提供图表和 D3 风格组合，使用独立命名空间。':'Chart types and D3-style composition in separate namespaces.'},
+];
+---
+<section class="component-catalog" id="component-catalog" data-catalog>
+ <div class="catalog-heading"><div><span class="eyebrow">COMPONENT INDEX</span><h2>{cn?'按能力找组件':'Find a component by role'}</h2></div><label>{cn?'搜索名称或组件族':'Search names or families'}<input type="search" data-catalog-search placeholder={cn?'例如：Button、L0、Material':'Try Button, L0, Material'} /></label></div>
+ <p class="catalog-count" data-catalog-count aria-live="polite">{cn?`${groups.length} 个分组`:`${groups.length} groups`}</p>
+ <div class="catalog-grid">{groups.map(g=><article class="catalog-card" data-catalog-group data-search={`${g.family} ${g.name} ${g.items} ${g.note}`.toLowerCase()}><span class="eyebrow">{g.family}</span><h3>{g.name}</h3><div class="component-names">{g.items.split(' ').map(name=><code>{name}</code>)}</div><p>{g.note}</p></article>)}</div>
+</section>
+<script>
+document.querySelectorAll<HTMLElement>('[data-catalog]').forEach(root=>{
+ const field=root.querySelector<HTMLInputElement>('[data-catalog-search]')!;
+ const groups=[...root.querySelectorAll<HTMLElement>('[data-catalog-group]')];
+ field.addEventListener('input',()=>{
+  const q=field.value.trim().toLowerCase();let count=0;
+  groups.forEach(g=>{g.hidden=!g.dataset.search?.includes(q);if(!g.hidden)count++;});
+  root.querySelector('[data-catalog-count]')!.textContent=document.documentElement.lang==='zh-CN'?`${count} 个分组`:`${count} groups`;
+ });
+});
+</script>

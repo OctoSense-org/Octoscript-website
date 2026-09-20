@@ -1,0 +1,38 @@
+{
+  "repositories": {
+    "makepad": "8d6bfb6644c91c562ddc33bb2e1678b2cf438513",
+    "octoscript-makepad": "9d637915a3433fe6652f308a5828d94c3645bb34",
+    "octoscript": "11c8f6fddf65357af21a995e64da771fd9237044"
+  },
+  "flutter_files": {
+    "components/flutter/_kit.octoscript": "612a5dd821cc11f826a5847852dc37bb5e00f6080a79a1eb1447fc3081b0913a",
+    "components/flutter/add_to_app.octoscript": "002264bfb5d288e0bc5438be32be73c2a0425f211a486f658a460e63ecbe12d5",
+    "components/flutter/analysis_defaults.octoscript": "569709ea2b4347ebadcbbf379ff2956b361dea0427650727292550722e672187",
+    "components/flutter/android_splash_screen.octoscript": "e2a8208ed0d87f9b3090ea5d82c2e765db4d8ecb4e01dee6f6b84cd7bc23acd8",
+    "components/flutter/animations.octoscript": "57575515e2a796039ff3ec0963a72d25074d321c8c97d0673dd315bde4d3d32f",
+    "components/flutter/asset_transformation.octoscript": "fb56a0d1e0138ac195832f9e22e9576b133b66af3cb4d74b07a8211a8d40b082",
+    "components/flutter/background_isolate_channels.octoscript": "dd0f55332c2dcdbe8be3c4819a2a99be472705ee61fdfe1123770c05a650f0bd",
+    "components/flutter/compass_app.octoscript": "bd7d2d78e765a2877c94d08f9d0a6ccb0274c769c6caac3708a1c9eb21321920",
+    "components/flutter/cupertino_gallery.octoscript": "2493f97bf485583b81e7a9e4dec6d22309e63795a978ec5dca861765fcb01b3b",
+    "components/flutter/date_planner.octoscript": "3af33e6a2262a409794692ff80d7719cea2ed2bb9ceeada61a979045442d3529",
+    "components/flutter/desktop_photo_search.octoscript": "92998411340ab6e86eedb10c073c26aa66ed89e2889fc857e0ad9504bfdf8b18",
+    "components/flutter/docs.octoscript": "a4f54e0f3e19bf4dd86b3f8d9e4e030ad346d88401428ca15af486c749ae16ed",
+    "components/flutter/dynamic_theme.octoscript": "d57cb0f49b9834b95a726fa5d28162182c1ce0893f14ece86e51b174cf436cff",
+    "components/flutter/form_app.octoscript": "e2acd4ecfe72a3e7034cb9161b5bff32683526e24783070b5ecb148ffd76260d",
+    "components/flutter/google_maps.octoscript": "254b23841c4becebef87afdcaaced8cb489b6d8420ae31b449ad0dde3b70b970",
+    "components/flutter/ios_app_clip.octoscript": "dd756da911dadda6fcde4723010ae29c8d1ecefca3aa281e121981cd22e27427",
+    "components/flutter/material_3_demo.octoscript": "2c8627248acdbc4081dea0764423fc7838048ea98fd6a2f45f3364d5b0d4da62",
+    "components/flutter/navigation_and_routing.octoscript": "496a150b08b57e739007f0e04a67abbbb27b1b118e84248ccd43c19b5ebc1014",
+    "components/flutter/pedometer.octoscript": "160a3eff968a9effa0d3a2b35ce8e32b80bcae9eed2e12020e9c32a5c381ba81",
+    "components/flutter/platform_channels.octoscript": "9dd9e1f717ea5dab3a8b00b49596387d7e5d80777db00bfc601b55b37670393a",
+    "components/flutter/platform_design.octoscript": "104befd2b2f4d05d2d0481350c61db0748d9ddfdc2d02b88d6d0a15ad34f6838",
+    "components/flutter/platform_view_swift.octoscript": "dde625c58bf8ce81ede5c402476da5a70c907b5b12be668ba585d17c210bcae4",
+    "components/flutter/simple_sdf.octoscript": "7abceed01cb7030e3b0eb0ff187c11270029e8cc9798268c1f9de2c58a771a30",
+    "components/flutter/simple_shader.octoscript": "70b70946fe135e7ed9d4533c820045720a586b1728fd1bc1719a6b85fa5b5fcc",
+    "components/flutter/testing_app.octoscript": "3e3e840fb8bcd5d63e19d84f264e27d7d3c101e7bd8964543eb0b4ca51537a33",
+    "components/flutter/tool.octoscript": "9b9b9f731cea3803a2ef7e5a2aae97a1b2d51a82750a8edca15dd823c48e7326",
+    "components/flutter/veggieseasons.octoscript": "536ba2f162406f27274c5a8a829d1b238a815460e67476e919b185ed32f47f08",
+    "components/flutter/web_embedding.octoscript": "1f7b9e2e7ec0427fe12a7896daa8988728151a8d24307df039b46538ad4701fd",
+    "components/flutter/_index.octoscript": "fe083cdff22c1399f3320d04481a7d26dec842cbae2aeaa10c2cdb617bb01c45"
+  }
+}

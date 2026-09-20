@@ -1,0 +1,24 @@
+---
+import Icon from './Icon.astro';
+import { route, type Locale } from '../data/content';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const cn = locale === 'cn';
+const rows = cn ? [
+ ['/snap?q=Button', '观察', '读取组件 ID、类型、文字、状态和当前矩形。'],
+ ['/click · /m · /k · /t', '操作', '按最新边界点击、拖动、滚动、按键和输入。'],
+ ['/g · /gseq · /log', '验证', '等待实际帧，检查应用画面和行为日志。'],
+ ['/tweak/state · /tweak/apply', '修正', '检查反射属性、试改样式，再把变更写回源码。'],
+] : [
+ ['/snap?q=Button', 'Observe', 'Read widget IDs, types, text, state and current rectangles.'],
+ ['/click · /m · /k · /t', 'Act', 'Click, drag, scroll, press keys and type using fresh bounds.'],
+ ['/g · /gseq · /log', 'Verify', 'Wait for a real frame; inspect app pixels and behavior logs.'],
+ ['/tweak/state · /tweak/apply', 'Repair', 'Inspect reflected properties, try an edit, then persist it in source.'],
+];
+---
+<section id="agent" class="container section-space" aria-labelledby="agent-title">
+  <div class="section-heading"><div><span class="eyebrow">06 / THE APP IS THE WORKBENCH</span><h2 id="agent-title">{cn ? '把开发工具放进应用。\n让 Agent 直接参与。' : 'Put the tools in the app.\nLet the agent work directly.'}</h2></div><p>{cn ? '从面向人类的 Studio，到应用内可通过 socket 访问的检查和控制原语。Agent 无需操作 IDE 窗口，就能理解和驱动正在运行的 UI。' : 'From Studio for human developers to inspection and control primitives inside the app, reachable over a socket. An agent can understand and drive the running UI without operating an IDE window.'}</p></div>
+  <div class="instrument-panel"><div class="instrument-header"><Icon name="chip" size={20}/><span>app --remote</span><span>127.0.0.1:PORT / HTTP</span></div><ol>{rows.map(([endpoint,title,body],i) => <li><span class="instrument-step">0{i+1}</span><div><h3>{title}</h3><p>{body}</p></div><code>{endpoint}</code></li>)}</ol><div class="instrument-footer">{cn ? '观察 → 操作 → 验证 → 修正 → 再构建' : 'OBSERVE → ACT → VERIFY → REPAIR → REBUILD'}</div></div>
+  <p class="story-note">{cn ? '开发实例显式启用仪器。这里的 headless 指不依赖 Studio GUI，视觉验证仍使用真实 GPU；各平台的检查与采集能力以宿主实现为准。' : 'Instrumentation is enabled explicitly for development. Headless means no Studio GUI is needed; visual checks still use the real GPU, with inspection and capture support determined by each host.'}</p>
+  <a class="text-link" href={route(locale, 'docs/splash-a2app/')}>{cn ? '阅读语言、仪器与 A2App 的完整关系' : 'Read how language, instruments and A2App fit together'}<Icon name="arrow" size={16}/></a>
+</section>

@@ -1,0 +1,52 @@
+---
+import {asset, route, type Locale} from '../data/content';
+interface Props {locale:Locale;}
+const {locale}=Astro.props;
+const cn=locale==='cn';
+---
+<section id="component-lab" class="component-lab" data-component-lab data-url={`${asset('wasm/component-lab/')}?lang=${locale}`}>
+ <div class="lab-heading"><div><span class="eyebrow">RUST → WASM → MAKEPAD</span><h2>{cn?'设计可以直接运行。':'Designs you can operate.'}</h2><p>{cn?'在浏览器里体验 Material 组件与 Flutter 示例设计。控件由真实 Makepad 渲染器绘制。':'Explore Material components and Flutter example designs, drawn by the real Makepad renderer.'}</p></div><span class="runtime-badge">WebAssembly / WebGL</span></div>
+ <div class="lab-grid"><div class="lab-sidebar">
+  <label for={`lab-preset-${locale}`}>{cn?'选择示例':'Choose an example'}</label>
+  <select id={`lab-preset-${locale}`} data-lab-preset><option value="0">Material · {cn?'状态与操作':'State & actions'}</option><option value="1">Flutter · Material 3</option><option value="2">Flutter · Cupertino Gallery</option><option value="3">Flutter · Form App</option></select>
+  <p class="lab-instructions" data-lab-instructions>{cn?'选择配送方式、点击 Gift wrap、勾选 Send updates，再点 Confirm selection。下方状态来自 WASM 内部的真实 slot。':'Choose a delivery speed, tap Gift wrap, check Send updates and confirm. The state below comes from real slots inside WASM.'}</p>
+  <dl class="lab-readout"><div><dt>{cn?'运行状态':'Runtime'}</dt><dd data-lab-status aria-live="polite">{cn?'尚未启动':'Not started'}</dd></div><div><dt>{cn?'最近的动作':'Last action'}</dt><dd data-lab-action>—</dd></div><div><dt>{cn?'组件节点':'Component nodes'}</dt><dd data-lab-nodes>—</dd></div></dl>
+  <pre class="lab-state" aria-label={cn?'当前演示状态':'Current demo state'}><code data-lab-state>{cn?'启动后显示状态':'Start to inspect state'}</code></pre>
+  <button type="button" class="button button-primary" data-lab-launch>{cn?'启动交互演示':'Launch interactive demo'}</button>
+  <p class="lab-limit">{cn?'按需加载。状态仅在当前实例中保留。Flutter 设计由 Octoscript 重建，部分节点只提供展示或导航；设备能力不在网页中模拟。':'Loads on demand. State lasts for this instance. Flutter designs are Octoscript recreations; some nodes only illustrate or navigate. Device capabilities are not simulated.'}</p>
+  <div class="lab-source-links"><a href={asset('wasm/component-lab/material.octoscript')}>{cn?'示例源码':'Demo source'}</a><a href={asset('wasm/component-lab/sources.json')}>{cn?'固定版本':'Pinned sources'}</a><a href={asset('wasm/component-lab/build.json')}>{cn?'构建摘要':'Build digest'}</a></div>
+ </div><div class="lab-stage" data-lab-stage><div class="lab-placeholder"><span class="lab-placeholder-symbol" aria-hidden="true">&lt;/&gt;</span><strong>Makepad component lab</strong><p>{cn?'启动后，在这里直接操作。':'Start the lab to interact here.'}</p><span class="eyebrow">MATERIAL 3 · FLUTTER DESIGNS</span></div></div></div>
+ <p class="story-note">{cn?'浏览器需要支持 WebAssembly 与 WebGL。组件目录与说明可直接阅读；canvas 控件的辅助技术支持不同于网页表单。':'Requires WebAssembly and WebGL. The component catalog and instructions remain readable HTML; canvas accessibility differs from HTML forms.'} <a href={route(locale,'docs/component-library/')}>{cn?'完整组件库与支持范围 →':'Full catalog and support scope →'}</a></p>
+</section>
+<script>
+document.querySelectorAll<HTMLElement>('[data-component-lab]').forEach(root=>{
+ const cn=document.documentElement.lang==='zh-CN';
+ const launch=root.querySelector<HTMLButtonElement>('[data-lab-launch]')!;
+ const select=root.querySelector<HTMLSelectElement>('[data-lab-preset]')!;
+ const status=root.querySelector('[data-lab-status]')!;
+ let frame:HTMLIFrameElement|undefined;let timeout:ReturnType<typeof setTimeout>;
+ const configure=()=>frame?.contentWindow?.postMessage({type:'octoscript:select',preset:Number(select.value),dark:document.documentElement.dataset.theme==='dark'},location.origin);
+ select.addEventListener('change',()=>{
+  root.querySelector('[data-lab-instructions]')!.textContent=select.value==='0'?(cn?'点击偏好和确认按钮，观察状态写入。':'Tap preferences and confirmation; observe state writes.'):(cn?'点击画布内的条目进入子页面；返回箭头可回到示例目录。部分设计节点仅展示。':'Tap entries inside the canvas to visit subpages; use its back arrow for the index. Some design nodes are illustrative.');
+  root.querySelector('[data-lab-state]')!.textContent='—';configure();
+ });
+ new MutationObserver(configure).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+ launch.addEventListener('click',()=>{
+  clearTimeout(timeout);frame?.remove();frame=document.createElement('iframe');
+  frame.title=cn?'可交互的 Makepad WASM 组件':'Interactive Makepad WASM components';frame.src=root.dataset.url!;
+  root.querySelector('[data-lab-stage]')!.replaceChildren(frame);
+  status.textContent=cn?'正在载入…':'Loading…';launch.textContent=cn?'重新启动演示':'Restart demo';
+  frame.addEventListener('load',configure);
+  timeout=setTimeout(()=>{status.textContent=cn?'加载时间较长，可重新启动':'Taking longer than expected. You can restart.';},45000);
+ });
+ window.addEventListener('message',event=>{
+  if(event.origin!==location.origin||event.source!==frame?.contentWindow||event.data?.type!=='octoscript:lab')return;
+  clearTimeout(timeout);const data=event.data;
+  if(data.error){status.textContent=cn?'加载失败，请重新启动':'Could not load. Please restart.';return;}
+  status.textContent=cn?'运行中 · Makepad/WASM':'Running · Makepad/WASM';
+  root.querySelector('[data-lab-action]')!.textContent=data.action||'—';
+  root.querySelector('[data-lab-nodes]')!.textContent=String(data.nodes);
+  root.querySelector('[data-lab-state]')!.textContent=Number(select.value)===0?JSON.stringify(data.state,null,2):JSON.stringify({route:data.route,revision:data.revision},null,2);
+ });
+});
+</script>

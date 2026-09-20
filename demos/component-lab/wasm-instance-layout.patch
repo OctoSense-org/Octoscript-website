@@ -1,0 +1,16 @@
+diff --git a/platform/src/draw_vars.rs b/platform/src/draw_vars.rs
+index 030904e..811ba64 100644
+--- a/platform/src/draw_vars.rs
++++ b/platform/src/draw_vars.rs
+@@ -53,6 +53,11 @@ pub struct DrawVars {
+     pub texture_slots: [Option<Texture>; DRAW_CALL_TEXTURE_SLOTS],
+     #[rust]
+     pub uniform_buffer_slots: [Option<UniformBuffer>; DRAW_CALL_UNIFORM_BUFFER_SLOTS],
++    // On wasm32 the previous fields end four bytes short of the struct's
++    // eight-byte alignment. Move that padding before the instance array:
++    // as_slice() continues directly into the enclosing shader's live fields.
++    #[rust]
++    pub instance_tail_padding: [u8; if cfg!(target_pointer_width = "32") { 4 } else { 0 }],
+     #[rust([0f32; DRAW_CALL_DYN_INSTANCES])]
+     pub dyn_instances: [f32; DRAW_CALL_DYN_INSTANCES],
+ }

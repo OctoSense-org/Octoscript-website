@@ -1,0 +1,30 @@
+---
+import Icon from './Icon.astro';
+import Mark from './Mark.astro';
+import { content, type Locale } from '../data/content';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const d = content[locale].demo;
+---
+<div class="workflow-demo" data-tabs>
+  <div class="demo-topline"><span class="eyebrow"><i class="dot"></i>{d.label}</span><Icon name="layers" size={17}/></div>
+  <div class="demo-tabs" role="tablist" aria-label={locale === 'cn' ? '工作流场景' : 'Workflow scenarios'}>
+    {d.cases.map((item, i) => <button type="button" role="tab" id={`tab-${item.id}`} aria-controls={`panel-${item.id}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}><Icon name={item.icon === 'package' ? 'parcel' : item.icon} size={15}/>{d.tabs[i]}</button>)}
+  </div>
+  {d.cases.map((item, i) => <div id={`panel-${item.id}`} role="tabpanel" aria-labelledby={`tab-${item.id}`} hidden={i !== 0} data-demo-panel data-approved={d.approved} data-dismissed={d.dismissed} data-ready={d.ready}>
+    <div class="event-source"><div class="source-icon"><Icon name={item.icon === 'package' ? 'parcel' : item.icon} size={19}/></div><div><span>{item.sender}</span><strong>{item.subject}</strong></div><span class="source-badge">01</span></div>
+    <div class="flow-connector" aria-hidden="true"><span></span><Icon name="arrow" size={15}/></div>
+    <div class="execution-lane"><div><Mark size={18}/><span>octoscript</span></div><span>{d.stages[0]}</span><i>→</i><span>{d.stages[1]}</span><i>→</i><span>{d.stages[2]}</span></div>
+    <div class="flow-connector" aria-hidden="true"><span></span><Icon name="arrow" size={15}/></div>
+    <div class={`action-card card-${item.id}`}>
+      <div class="card-top"><span class="eyebrow"><Icon name={item.id === 'school' ? 'calendar' : item.id === 'delivery' ? 'parcel' : 'compass'} size={14}/>{item.cardType}</span><span class="card-state" data-result role="status">{d.ready}</span></div>
+      <h2>{item.title}</h2>
+      <p class="card-description">{item.description}</p>
+      <div class="card-appointment"><div><span class="eyebrow">{item.date}</span><strong>{item.time}</strong></div><span><Icon name="pin" size={14}/>{item.place}</span></div>
+      <div class="card-controls"><button class="button button-primary" type="button" data-approve>{d.approve}<Icon name="check" size={15}/></button><button class="button button-quiet" type="button" data-dismiss>{d.cancel}</button></div>
+      <details class="card-source"><summary>{d.source}<Icon name="plus" size={14}/></summary><blockquote><span>{item.sender}</span><p>{item.message}</p></blockquote></details>
+    </div>
+    <div class="demo-under"><span><Icon name="layers" size={13}/>{d.original}</span><button type="button" data-reset>{d.reset}<span aria-hidden="true">↺</span></button></div>
+  </div>)}
+  <p class="demo-note">{d.note}</p>
+</div>

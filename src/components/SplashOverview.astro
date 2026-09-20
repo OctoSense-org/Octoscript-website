@@ -1,0 +1,27 @@
+---
+import Icon from './Icon.astro';
+import { route, type Locale } from '../data/content';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const cn = locale === 'cn';
+const features = cn ? [
+ ['对象组合', 'Type { … } 实例化定义，name := 命名组件；让界面结构可复用、可定位。'],
+ ['类型与样式', '+: 合并继承的属性，主题与 kit 共享默认值；改一处，复用到多处。'],
+ ['行为与 Rust', '函数与回调表达交互；Rust 注册组件、持有状态、执行真正的应用服务。'],
+ ['绘制与动画', 'shader、instance、uniform 与 Animator 支持自定义 GPU 视觉和状态过渡。'],
+ ['实时迭代', 'UI 宿主可重新挂载或更新 Splash，结合组件检查和画面反馈完成修正。'],
+] : [
+ ['Object composition', 'Type { … } instantiates definitions; name := identifies children. UI remains reusable and addressable.'],
+ ['Types and styling', '+: merges inherited properties. Themes and kits share defaults across component instances.'],
+ ['Behavior and Rust', 'Functions and callbacks describe interaction; Rust registers components, owns state and implements services.'],
+ ['Drawing and motion', 'Shaders, instance values, uniforms and Animator support custom GPU visuals and state transitions.'],
+ ['Live iteration', 'A UI host can reload or update Splash, then inspect widgets and rendered frames to guide repairs.'],
+];
+const code = `View {\n    width: Fill\n    height: Fit\n    flow: Down\n    spacing: 12\n\n    title := Label {\n        text: "Ready to build"\n    }\n    launch := Button {\n        text: "Run workflow"\n    }\n}`;
+---
+<section id="splash" class="container section-space" aria-labelledby="splash-title">
+  <div class="section-heading"><div><span class="eyebrow">03 / MEET SPLASH</span><h2 id="splash-title">{cn ? '一种语言，连接\n界面、行为与绘制。' : 'One language for\nUI, behavior and drawing.'}</h2></div><p>{cn ? '认识 Rik Arends 与 Makepad 项目中的 Splash：可实时编辑的 UI 语言，也是 Octoscript 的 VM 基础。' : 'Meet Splash from Rik Arends and the Makepad project: a live-editable UI language and the VM foundation of Octoscript.'}</p></div>
+  <div class="splash-grid"><div class="language-example"><div class="workbench-chrome"><span><Icon name="code" size={17}/> component.splash</span><span class="workbench-badge">UI HOST</span></div><pre tabindex="0"><code>{code}</code></pre><div class="language-legend"><span><b>:=</b>{cn ? '命名子组件' : 'Named child'}</span><span><b>:</b>{cn ? '设置属性' : 'Property'}</span><span><b>{'{ }'}</b>{cn ? '组合实例' : 'Composition'}</span></div><p class="story-note">{cn ? 'UI 片段：需要已注册 Label、Button 等组件的宿主。' : 'UI excerpt: requires a host with Label, Button and other widget bindings.'}</p></div><ol class="language-features">{features.map(([title,body],i) => <li><span>0{i+1}</span><div><h3>{title}</h3><p>{body}</p></div></li>)}</ol></div>
+  <div class="splash-reuse"><Icon name="layers" size={24}/><div><h3>{cn ? 'UI 复用 Splash，工作流有自己的边界。' : 'Reuse Splash for UI. Keep workflow admission explicit.'}</h3><p>{cn ? '直接编写 Splash，或将经过检查的 L0 / L1 转为 UiNode，再经过主题与组件 kit 降低到 Splash。共享 makepad-script 实现，不等于共享所有宿主能力。' : 'Author Splash directly, or check L0 / L1, realize UiNodes and lower them through a theme and component kit. Sharing makepad-script does not share every host capability.'}</p></div></div>
+  <a class="text-link" href={route(locale, 'docs/splash-a2app/')}>{cn ? '深入了解 Splash 语法、Rust 与 UI 宿主' : 'Explore Splash syntax, Rust and UI hosts'}<Icon name="arrow" size={16}/></a>
+</section>

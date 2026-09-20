@@ -1,0 +1,22 @@
+---
+import Icon from './Icon.astro';
+import { route, type Locale } from '../data/content';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const cn = locale === 'cn';
+const rows = cn ? [
+  ['生成目标', '通用语法与大型生态，应用另行约束可用范围。', '明确的规范语法 + profile + 工具目录。'],
+  ['执行权', '由嵌入方式、隔离环境与 API 共同决定。', '默认无工具权限；宿主逐步签发能力。'],
+  ['运行成本', '按所选运行时补齐限制与应用集成。', '指令、时间、内存等显式上限；宿主驱动让出与恢复。'],
+] : [
+  ['Generation target', 'General-purpose syntax and ecosystems; the app defines its accepted surface.', 'Canonical grammar + profile + tool catalog.'],
+  ['Authority', 'Determined by embedding, isolation and exposed APIs.', 'No tool authority by default; host-issued grants.'],
+  ['Execution budget', 'Limits and app integration depend on the selected runtime.', 'Explicit instruction, time and memory bounds; host-driven yield and resume.'],
+];
+---
+<div class="motivation-detail">
+  <div class="story-intro"><h3>{cn ? '为何不直接让模型写 Python / JavaScript？' : 'Why not just generate Python or JavaScript?'}</h3><p>{cn ? '通用语言擅长利用成熟生态。Octoscript 选择为嵌入应用的生成程序设计更小的执行约定：让模型专注表达工作，让宿主检查并控制每一步。' : 'General-purpose languages excel at ecosystem access. Octoscript chooses a smaller execution contract for generated programs embedded in an application: the model expresses work, and the host can inspect and control each step.'}</p></div>
+  <div class="comparison-wrap"><table class="story-table"><thead><tr><th>{cn ? '设计问题' : 'Design question'}</th><th>Python / JavaScript</th><th>Octoscript</th></tr></thead><tbody>{rows.map(row => <tr>{row.map((cell,i) => i === 0 ? <th scope="row">{cell}</th> : <td>{cell}</td>)}</tr>)}</tbody></table></div>
+  <p class="story-note">{cn ? '小巧和高效是设计目标；安全与可靠来自具体的检查、授权、执行预算和宿主隔离。这里不宣称未经测量的性能优势。' : 'Compactness and efficiency are design goals. Safety and reliability come from checks, grants, budgets and host isolation—not an unmeasured performance claim.'}</p>
+  <a class="text-link" href={route(locale, 'docs/why-octoscript/')}>{cn ? '阅读完整设计动机与安全模型' : 'Read the motivation and execution model'}<Icon name="arrow" size={16}/></a>
+</div>

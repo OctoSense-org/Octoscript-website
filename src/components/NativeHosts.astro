@@ -1,0 +1,27 @@
+---
+import Icon from './Icon.astro';
+import { route, type Locale } from '../data/content';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const cn = locale === 'cn';
+const platforms = cn ? [
+ ['Makepad', '跨平台组件', 'Rust + GPU 后端，复用布局、绘制、组件和交互，覆盖原生与 WebAssembly。'],
+ ['Android', '平台系统控件', 'Rust 求值树 → JNI → Java builder → Android / Material View。'],
+ ['OpenHarmony', '平台系统控件', 'Rust → ArkUI C API → 原生节点；外壳与特定平台交接保留在 ArkTS。'],
+ ['iOS', '后端与接入点', 'Makepad iOS 后端已有原生视图接入；完整 UIKit 控件树仍需专门适配器。'],
+] : [
+ ['Makepad', 'Cross-platform widgets', 'Rust + GPU backends share layout, drawing, components and interaction across native and WASM.'],
+ ['Android', 'Platform controls', 'Rust-evaluated tree → JNI → Java builder → Android / Material views.'],
+ ['OpenHarmony', 'Platform controls', 'Rust → ArkUI C API → native nodes; shell and specific platform handoffs remain in ArkTS.'],
+ ['iOS', 'Backend & integration points', 'Makepad has an iOS backend and native-view hooks; a complete UIKit tree requires a dedicated adapter.'],
+];
+---
+<section id="platforms" class="story-band" aria-labelledby="platforms-title"><div class="container">
+  <div class="section-heading"><div><span class="eyebrow">05 / ONE LOGIC, MULTIPLE HOSTS</span><h2 id="platforms-title">{cn ? '共享 Rust 逻辑。\n选择界面的呈现方式。' : 'Share the Rust logic.\nChoose the UI host.'}</h2></div><p>{cn ? 'Makepad 绘制组件与平台系统控件都可以成为 UI 的目标，也可以在同一页面内组合。语言、逻辑和渲染宿主各司其职。' : 'Makepad-drawn widgets and platform controls are both UI targets. A host can compose them in one page while keeping language, logic and rendering responsibilities clear.'}</p></div>
+  <div class="host-grid">{platforms.map(([name,tag,body]) => <article><span class="eyebrow">{tag}</span><h3>{name}</h3><p>{body}</p></article>)}</div>
+  <div class="hybrid-grid"><div class="hybrid-diagram" role="img" aria-label={cn ? '组合示意：原生预览、Makepad 控制条与平台控件共享页面和 Rust 状态' : 'Composition schematic: a native preview, Makepad controls and platform controls share a page and Rust state'}><div class="diagram-topline">{cn ? '同页组合 · 结构示意' : 'ONE PAGE · COMPOSITION SCHEMATIC'}</div><div class="native-preview"><Icon name="video" size={38}/><strong>{cn ? '原生相机 / WebView 表面' : 'Native camera / WebView surface'}</strong><span>{cn ? '平台视图生命周期与能力' : 'Platform view lifecycle and capabilities'}</span></div><div class="hybrid-controls"><span><Icon name="settings" size={18}/>{cn ? 'Makepad 控制条' : 'Makepad controls'}</span><span><Icon name="touch" size={18}/>{cn ? '平台输入控件' : 'Platform input'}</span></div><div class="shared-logic">{cn ? '共享 RUST 状态 · 事件 · 服务' : 'SHARED RUST STATE · EVENTS · SERVICES'}</div></div>
+    <div class="hybrid-copy"><h3>{cn ? '一个页面，一致的交互。' : 'One page, coordinated interaction.'}</h3><p>{cn ? '宿主协调布局矩形、裁剪、层级、焦点、键盘与生命周期。例如让原生预览负责相机画面，Makepad 负责自定义覆盖层，平台控件提供系统输入体验。' : 'The host coordinates rectangles, clipping, layering, focus, keyboard and lifecycle. A native preview can carry camera frames, Makepad can draw custom overlays, and platform controls can supply system input.'}</p><h3>{cn ? '已有例证：相机的两个宿主。' : 'In the repository: two camera hosts.'}</h3><p>{cn ? 'camera/native 和 camera/oh 都依赖 octosense-camera-logic。状态机与场景生成共享，前者使用 Makepad kit，后者通过 ArkUI C API 创建系统节点。' : 'camera/native and camera/oh both depend on octosense-camera-logic. They share the state machine and scene generation, rendering through Makepad kits or ArkUI C API nodes.'}</p><a class="text-link" href="https://github.com/OctoSense-org/Octoscript-AppCard/tree/feat/camera-app/apps/camera">{cn ? '查看共享逻辑与双宿主实现' : 'Inspect the shared logic and hosts'}<Icon name="diagonal" size={15}/></a></div>
+  </div>
+  <p class="story-note">{cn ? 'Makepad 原生绘制组件与平台系统控件是两种后端；同页组合需要具体适配，并不自动将任意 shader 转成系统控件。' : 'Makepad widgets and platform system controls are different backends. Same-page composition needs host adapters; arbitrary shaders do not become system controls automatically.'}</p>
+  <a class="text-link" href={route(locale, 'docs/splash-a2app/')}>{cn ? '查看平台映射与原生组合细节' : 'Read the platform mapping and composition details'}<Icon name="arrow" size={16}/></a>
+</div></section>

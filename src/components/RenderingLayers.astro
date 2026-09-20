@@ -1,0 +1,23 @@
+---
+import { route, type Locale } from '../data/content';
+interface Props { locale: Locale; }
+const {locale}=Astro.props;
+const cn=locale==='cn';
+const layers=cn?[
+ ['L0','检查与展开','卡片 + 宿主数据 → UI 树','验证数据来源、状态、key 与展开预算。'],
+ ['L1','组件库映射','UI 树 + kit → 组件调用','保留角色、参数、主题和来源 ID。'],
+ ['L2','VM 与节点翻译','组件调用 → UiNode → Splash','共享 VM 求值，生成后端组件描述。'],
+ ['L3','挂载与交互','组件描述 → 像素 + 事件','实际布局、绘制、点击与状态回传。'],
+]:[
+ ['L0','Check & realize','Card + host data → UI tree','Validate origins, state, keys and traversal budgets.'],
+ ['L1','Lower through a kit','UI tree + kit → component calls','Preserve roles, parameters, themes and source IDs.'],
+ ['L2','Evaluate & translate','Calls → UiNode → Splash','The shared VM produces backend widget descriptions.'],
+ ['L3','Mount & interact','Widgets → pixels + events','Real layout, rendering, input and state feedback.'],
+];
+---
+<div class="layers-explainer">
+ <div class="story-intro"><h3>{cn?'L0–L3：一条可验证的组件实现链路':'L0–L3: a verifiable component pipeline'}</h3><p>{cn?'这里的四层描述“怎么把卡片变成可操作的界面”。它们与上方卡片头部的语言能力等级是两个独立维度。':'These four layers describe how a card becomes an operable UI. They are separate from the language capabilities declared in card headers above.'}</p></div>
+ <ol class="render-layers">{layers.map(([id,title,contract,body])=><li><span class="layer-id">{id}</span><h4>{title}</h4><code>{contract}</code><p>{body}</p></li>)}</ol>
+ <p class="level-boundary">{cn?'能力等级的当前边界：UI L0 已实现；UI L1 仅开放受限的纯算术表达式。UI L2 尚未实现，检查器在解析前拒绝；不存在可用的 UI L3 profile。实现链路的 L3 不是一张执行权限通行证。':'Capability status: UI L0 is implemented; UI L1 admits bounded pure arithmetic only. UI L2 is unimplemented and rejected before parsing. No UI L3 capability profile exists. Pipeline layer L3 confers no execution authority.'}</p>
+ <a class="text-link" href={route(locale,'docs/language-profiles/')}>{cn?'查看语法、完整例子与等级判定 →':'Syntax, complete examples and level checking →'}</a>
+</div>

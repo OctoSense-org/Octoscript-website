@@ -1,0 +1,15 @@
+---
+import Mark from './Mark.astro';
+import Icon from './Icon.astro';
+import { content, route, repository, type Locale } from '../data/content';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const c = content[locale];
+---
+<footer class="site-footer container">
+  <div class="footer-main">
+    <div><a class="wordmark" href={route(locale)}><Mark size={26}/><span>octoscript<span class="brand-period">_</span></span></a><p>{c.footerLine}</p></div>
+    <div class="footer-links"><a href={route(locale, 'docs/')}>{c.docsHome}</a><a href={repository}>GitHub<Icon name="diagonal" size={13}/></a><a href={`https://octosense.org/${locale === 'cn' ? 'cn/' : ''}`}>OctoSense<Icon name="diagonal" size={13}/></a></div>
+  </div>
+  <div class="footer-bottom"><span>© {new Date().getFullYear()} OctoSense</span><span><i class="dot"></i>{c.footerNote}</span><a href="#top">{c.back}<span>↑</span></a></div>
+</footer>

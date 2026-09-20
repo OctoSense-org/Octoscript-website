@@ -1,0 +1,7 @@
+---
+import Icon from './Icon.astro';
+import { content, route, type Locale } from '../data/content';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+---
+<div class="guide-grid">{content[locale].guides.map((guide, i) => <a class="guide-card" href={route(locale, `docs/${guide.slug}/`)}><div class="guide-top"><span class="eyebrow">{guide.tag}</span><Icon name="diagonal" size={19}/></div><span class="guide-number" aria-hidden="true">0{i + 1}</span><h3>{guide.title}</h3><p>{guide.description}</p></a>)}</div>

@@ -1,0 +1,19 @@
+// Semantic Material 3 vocabulary. The renderer supplies geometry and paint.
+{t:"col", pad:16, spacing:16, c:[
+  {t:"text", variant:"headlineMedium", text:"Material 3"},
+  {t:"text", variant:"bodyMedium", text:"Native Makepad widgets, running in WebAssembly."},
+  section("Choose a delivery speed"),
+  {t:"segmented", items:"Standard;Express;Pickup", key:"lab_speed", selected:N("lab_speed",0)},
+  {t:"text", variant:"bodyMedium", text:"Selected index: " + N("lab_speed",0)},
+  section("Preferences"),
+  {t:"chip", variant:"filter", text:"Gift wrap", key:"lab_gift", on:N("lab_gift",0)},
+  {t:"checkbox", text:"Send updates", key:"lab_updates", on:N("lab_updates",0)},
+  {t:"text", variant:"bodyMedium", text:"Gift wrap: " + N("lab_gift",0) + " / Updates: " + N("lab_updates",0)},
+  section("Actions"),
+  {t:"button", variant:"filled", label:"Confirm selection", key:"lab_confirm", tap:1},
+  {t:"button", variant:"outlined", label:"Clear confirmation", key:"lab_confirm", action:"0"},
+  {t:"text", variant:"titleMedium", text:"Confirmed: " + N("lab_confirm",0)},
+  {t:"card", variant:"outlined", c:[
+    {t:"text", variant:"bodyMedium", text:"Every control above writes a state slot. Labels read the same slots on the next render."}
+  ]}
+]}

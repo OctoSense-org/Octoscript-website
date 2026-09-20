@@ -1,0 +1,23 @@
+---
+import Icon from './Icon.astro';
+import SourceCode from './SourceCode.astro';
+import workflow from '../content/upstream/octoscript/examples/tool_workflow.octoscript?raw';
+import { type Locale } from '../data/content';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const cn = locale === 'cn';
+---
+<div class="workbench" aria-label={cn ? 'Octoscript 源码与执行流程示例' : 'Octoscript source and execution example'}>
+  <div class="workbench-chrome"><span><Icon name="code" size={16}/> tool_workflow.octoscript</span><span class="workbench-badge">{cn ? '源码示例' : 'SOURCE EXAMPLE'}</span></div>
+  <div class="workbench-editor">
+    <div class="editor-gutter" aria-hidden="true">{workflow.trimEnd().split('\n').map((_, i) => <span>{String(i + 1).padStart(2, '0')}</span>)}</div>
+    <pre tabindex="0" aria-label={cn ? '工作流源码' : 'Workflow source'}><SourceCode source={workflow}/></pre>
+  </div>
+  <div class="workbench-pipeline" aria-label={cn ? '源码、宿主、结果' : 'Source, host, result'}>
+    <div><span>01 / SOURCE</span><strong>{cn ? '描述工作' : 'Define'}</strong></div><Icon name="arrow" size={16}/>
+    <div><span>02 / HOST</span><strong>{cn ? '调用工具' : 'Execute'}</strong></div><Icon name="arrow" size={16}/>
+    <div><span>03 / RESULT</span><strong>{cn ? '返回数据' : 'Return'}</strong></div>
+  </div>
+  <div class="workbench-output"><div><span class="eyebrow">{cn ? '预期输出 · TEXT.ECHO' : 'EXPECTED OUTPUT · TEXT.ECHO'}</span><Icon name="chevron" size={15}/></div><code>"prepare release notes"</code></div>
+  <div class="workbench-status"><span><i class="dot"></i>{cn ? '由宿主授权工具访问' : 'Host-authorized tool access'}</span><a href="#start">{cn ? '本地运行' : 'Run locally'}<Icon name="arrow" size={14}/></a></div>
+</div>

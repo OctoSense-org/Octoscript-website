@@ -1,0 +1,9 @@
+---
+import Guide from '../../../components/Guide.astro';
+import { content } from '../../../data/content';
+export function getStaticPaths() {
+  return content.cn.guides.map(guide => ({ params: { slug: guide.slug } }));
+}
+const { slug } = Astro.params;
+---
+<Guide locale="cn" slug={slug!} />

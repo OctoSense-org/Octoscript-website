@@ -1,0 +1,74 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from './Icon.astro';
+import Mark from './Mark.astro';
+import WorkflowDemo from './WorkflowDemo.astro';
+import CodeWorkbench from './CodeWorkbench.astro';
+import SourceCode from './SourceCode.astro';
+import Guides from './Guides.astro';
+import Motivation from './Motivation.astro';
+import SplashOverview from './SplashOverview.astro';
+import NativeHosts from './NativeHosts.astro';
+import AgentTools from './AgentTools.astro';
+import DesignFlows from './DesignFlows.astro';
+import RenderingLayers from './RenderingLayers.astro';
+import ComponentLab from './ComponentLab.astro';
+import { content, route, repository, type Locale } from '../data/content';
+import workflow from '../content/upstream/octoscript/examples/tool_workflow.octoscript?raw';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const c = content[locale];
+const commands = `git clone ${repository}.git\ncd Octoscript\n\ncargo run --locked -p octoscript-cli -- \\\n  check examples/tool_workflow.octoscript\n\ncargo run --locked -p octoscript-cli -- \\\n  run --allow-echo examples/tool_workflow.octoscript`;
+---
+<Layout locale={locale}>
+  <main id="main">
+    <section class="hero container" aria-labelledby="hero-title">
+      <div class="hero-copy"><div class="eyebrow"><Mark size={19}/>{c.eyebrow}</div><h1 id="hero-title"><span>{c.hero[0]}</span><em>{c.hero[1]}</em></h1><p class="hero-intro">{c.intro}</p><div class="hero-actions"><a href="#start" class="button button-primary">{c.start}<Icon name="arrow" size={18}/></a><a href={route(locale, 'docs/')} class="text-link">{c.readDocs}<Icon name="diagonal" size={16}/></a></div><p class="hero-note"><i class="dot"></i>{c.heroNote}</p></div>
+      <CodeWorkbench locale={locale}/>
+    </section>
+    <div class="ribbon container">{c.ribbon.map((item, i) => <span><Icon name={['code', 'settings', 'grid'][i]} size={19}/>{item}</span>)}</div>
+    <section id="idea" class="container section-space" aria-labelledby="idea-title">
+      <div class="section-heading"><div><span class="eyebrow">{c.ideaLabel}</span><h2 id="idea-title">{c.ideaTitle}</h2></div><p>{c.ideaIntro}</p></div>
+      <div class="feature-grid">{c.features.map((feature, i) => <article class="feature"><div class="feature-symbol"><Icon name={feature.icon === 'sliders' ? 'settings' : feature.icon} size={30}/><span>0{i + 1}</span></div><h3>{feature.title}</h3><p>{feature.body}</p><span class="eyebrow">{feature.tag}</span></article>)}</div>
+      <Motivation locale={locale}/>
+    </section>
+    <section id="architecture" class="vm-section" aria-labelledby="vm-title"><div class="container vm-grid">
+      <div><span class="eyebrow">{c.vmLabel}</span><h2 id="vm-title">{c.vmTitle}</h2><p>{c.vmBody}</p><a class="text-link" href={route(locale, 'docs/why-octoscript/')}>{c.vmLink}<Icon name="diagonal" size={17}/></a></div>
+      <div class="vm-diagram">
+        <div class="vm-hosts">
+          <div class="vm-host"><span class="eyebrow">{c.workflowHost}</span><h3>Octoscript</h3><span>{c.workflowBody}</span></div>
+          <div class="vm-host"><span class="eyebrow">{c.uiHost}</span><h3>Makepad UI</h3><span>{c.uiBody}</span></div>
+        </div>
+        <div class="vm-wires" aria-hidden="true"><span></span><span></span></div>
+        <div class="vm-core"><Icon name="chip" size={30}/><div><span class="eyebrow">{c.sharedVm}</span><strong>Makepad Splash</strong></div><Mark size={32}/></div>
+        <p class="vm-caption">{c.vmNote}</p>
+      </div>
+    </div></section>
+    <SplashOverview locale={locale}/>
+    <section id="profiles" class="container section-space" aria-labelledby="profiles-title">
+      <div class="section-heading"><div><span class="eyebrow">{c.profilesLabel}</span><h2 id="profiles-title">{c.profilesTitle}</h2></div><p>{c.profilesIntro}</p></div>
+      <div class="profiles-grid">{c.profiles.map(profile => <article class="profile"><div class="profile-level"><span>{profile.number}</span><Icon name={profile.number === 'L0' ? 'layers' : 'plus'} size={26}/></div><span class="eyebrow">{profile.tag}</span><h3>{profile.title}</h3><p>{profile.body}</p><div class="profile-tags">{profile.tags.map(tag => <span>{tag}</span>)}</div></article>)}</div>
+      <div class="handoff"><span class="eyebrow">{c.handoff}</span><ol>{['UiNode', c.kit, 'Splash DSL', c.native].map(item => <li>{item}<Icon name="arrow" size={17}/></li>)}</ol></div>
+      <RenderingLayers locale={locale}/>
+      <div class="profile-links"><a class="text-link" href={route(locale, 'docs/component-library/')}>{locale === 'cn' ? '组件目录与实际体验' : 'Component catalog and live examples'}<Icon name="diagonal" size={16}/></a><a class="text-link" href={route(locale, 'docs/makepad/')}>{c.makepadLink}<Icon name="arrow" size={16}/></a></div>
+    </section>
+    <NativeHosts locale={locale}/>
+    <AgentTools locale={locale}/>
+    <DesignFlows locale={locale}/>
+    <div class="container section-space"><ComponentLab locale={locale}/></div>
+    <section class="demo-section" aria-labelledby="demo-title"><div class="container demo-grid">
+      <div class="demo-copy"><span class="eyebrow">{c.demoSection.label}</span><h2 id="demo-title">{c.demoSection.title}</h2><p>{c.demoSection.body}</p><ol class="demo-contract">{c.demoSection.steps.map((step, i) => <li><span>0{i + 1}</span><div><strong>{step.title}</strong><p>{step.body}</p></div></li>)}</ol><a class="text-link" href={route(locale, 'docs/component-library/')}>{locale === 'cn' ? '组件目录与实际体验' : 'Component catalog and live examples'}<Icon name="diagonal" size={16}/></a></div>
+      <WorkflowDemo locale={locale}/>
+    </div></section>
+    <section id="start" class="start-section" aria-labelledby="start-title"><div class="container start-grid">
+      <div><span class="eyebrow">{c.startLabel}</span><h2 id="start-title">{c.startTitle}</h2><p class="start-intro">{c.startBody}</p><ol class="start-steps">{c.stepTitles.map((step, i) => <li><span>0{i + 1}</span><div><strong>{step}</strong><p>{c.stepBodies[i]}</p></div></li>)}</ol><a href={route(locale, 'docs/why-octoscript/')} class="text-link">{c.toolsLink}<Icon name="diagonal" size={16}/></a></div>
+      <div class="code-example" data-tabs data-copy-area data-copied={c.copied} data-copy-label={c.copy} data-copy-failed={c.copyFailed}>
+        <div class="code-toolbar"><div role="tablist" aria-label={locale === 'cn' ? '代码示例' : 'Code examples'}><button type="button" role="tab" id="source-tab" aria-controls="source-panel" aria-selected="true">{c.sourceTab}</button><button type="button" role="tab" id="run-tab" aria-controls="run-panel" aria-selected="false" tabindex="-1">{c.runTab}</button></div><button type="button" class="copy-button" data-copy>{c.copy}</button></div>
+        <div id="source-panel" role="tabpanel" aria-labelledby="source-tab"><div class="code-filename"><i class="dot"></i>tool_workflow.octoscript</div><pre tabindex="0"><SourceCode source={workflow}/></pre><div class="code-result"><Icon name="chevron" size={15}/><span>{locale === 'cn' ? '预期输出' : 'Expected output'}: text.echo → "prepare release notes"</span></div></div>
+        <div id="run-panel" role="tabpanel" aria-labelledby="run-tab" hidden><div class="code-filename"><i class="dot"></i>Terminal</div><pre tabindex="0"><code>{commands}</code></pre></div>
+        <div class="code-foot"><span>{c.prerequisite}</span><span role="status" data-copy-status></span></div>
+      </div>
+    </div></section>
+    <section class="container section-space docs-section" aria-labelledby="docs-title"><div class="section-heading"><div><span class="eyebrow">{c.docsLabel}</span><h2 id="docs-title">{c.docsTitle}</h2></div><p>{c.docsIntro}</p></div><Guides locale={locale}/></section>
+  </main>
+</Layout>

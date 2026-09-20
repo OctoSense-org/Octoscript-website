@@ -1,0 +1,6 @@
+# Preserve the exact bytes recorded in source snapshots and WASM build receipts.
+/src/content/upstream/octoscript/** -text
+/demos/component-lab/** -text
+/public/wasm/component-lab/** -text -whitespace
+# This upstream DSL bundle is retained verbatim, including its final blank line.
+/demos/component-lab/src/flutter.octoscript -whitespace

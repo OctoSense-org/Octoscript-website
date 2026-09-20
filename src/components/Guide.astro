@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from './Icon.astro';
+import ComponentCatalog from './ComponentCatalog.astro';
+import ComponentLab from './ComponentLab.astro';
+import { guidesFor } from '../data/docs';
+import { content, route, repository, type Locale } from '../data/content';
+interface Props { locale: Locale; slug: string; }
+const { locale, slug } = Astro.props;
+const guides = guidesFor(locale);
+const guide = guides.find(item => item.slug === slug)!;
+const c = content[locale];
+const Content = guide.Content;
+---
+<Layout locale={locale} title={`${guide.title} — Octoscript`} description={guide.description} path={`docs/${slug}/`}>
+  <main id="main" class="container doc-layout">
+    <aside class="doc-sidebar" aria-label={c.docsHome}>
+      <a class="docs-back" href={route(locale, 'docs/')}><span>←</span>{c.docsHome}</a>
+      <span class="eyebrow">OCTOSCRIPT</span>
+      <nav aria-label={locale === 'cn' ? '开发指南' : 'Developer guides'}>{guides.map(item => <a href={route(locale, `docs/${item.slug}/`)} aria-current={item.slug === slug ? 'page' : undefined}>{item.title}<Icon name="chevron" size={13}/></a>)}</nav>
+      <a class="sidebar-source" href={repository}>{c.source}<Icon name="diagonal" size={14}/></a>
+    </aside>
+    <div class="doc-content"><span class="eyebrow">{c.guideLabel} / {guide.tag}</span><article class="prose"><Content /></article>{slug === 'component-library' && <><ComponentLab locale={locale}/><ComponentCatalog locale={locale}/></>}<a class="text-link doc-bottom" href={route(locale, 'docs/')}><span>←</span>{c.allDocs}</a></div>
+    <aside class="doc-toc" aria-label={c.onPage}><span class="eyebrow">{c.onPage}</span><nav>{guide.headings.filter((heading: {depth: number}) => heading.depth === 2).map((heading: {slug: string; text: string}) => <a href={`#${heading.slug}`}>{heading.text}</a>)}</nav></aside>
+  </main>
+</Layout>

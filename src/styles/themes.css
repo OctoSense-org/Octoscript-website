@@ -1,0 +1,26 @@
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0b1017; --text: #e8eef5; --muted: #a1afc1; --line: #293544;
+  --accent: #67e8f9; --selection: #1b414e; --surface: #111a25;
+  --raised: #192532; --accent-soft: #122e38; --amber: #f1c68c;
+  --on-accent: #0b1017; --accent-hover: #9aeeff; --section-bg: #0e1620; --code-bg: #0d141d;
+  --code-line: #8797aa; --frame: #3a5063; --grid: #67e8f907; --shadow: #0003;
+  --syntax-keyword: #c2a5ff; --syntax-module: #91c9ff; --syntax-string: #b4e3b9; --syntax-function: #67e8f9;
+}
+html[data-theme='dark'] .astro-code, html[data-theme='dark'] .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+}
+.theme-toggle { display: inline-flex; justify-content: center; align-items: center; background: var(--surface); border: 1px solid var(--line); width: 44px; height: 44px; padding: 0; border-radius: 3px; color: var(--accent); }
+.theme-toggle:hover { background: var(--accent-soft); }
+.theme-toggle .sun-icon, [data-theme='dark'] .theme-toggle .moon-icon { display: none; }
+[data-theme='dark'] .theme-toggle .sun-icon { display: block; }
+@media (max-width: 1180px) { .desktop-nav { gap: 18px; } .header-actions { gap: 14px; } }
+@media (max-width: 700px) { .header-actions { gap: 9px; } .site-header { gap: 10px; } }
+@media (max-width: 380px) {
+  .wordmark { font-size: 19px; gap: 5px; }
+  .site-header .wordmark svg { width: 22px; }
+  .header-actions { gap: 5px; }
+  .language-link { gap: 4px; }
+  .language-link svg { display: none; }
+}

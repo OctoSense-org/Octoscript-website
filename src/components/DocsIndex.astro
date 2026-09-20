@@ -1,0 +1,17 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Guides from './Guides.astro';
+import Icon from './Icon.astro';
+import { content, route, type Locale } from '../data/content';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const c = content[locale];
+const referenceTargets = ['language-profiles/', 'language-profiles/', 'why-octoscript/', 'why-octoscript/'];
+---
+<Layout locale={locale} title={`${c.docsHome} — Octoscript`} description={c.docsDescription} path="docs/">
+  <main id="main" class="container docs-index">
+    <div class="docs-intro"><span class="eyebrow">OCTOSCRIPT / {c.docsHome}</span><h1>{c.docsHeading}</h1><p>{c.docsDescription}</p></div>
+    <Guides locale={locale}/>
+    <section class="reference-section" aria-labelledby="references-title"><h2 id="references-title" class="eyebrow">{c.references}</h2><div class="reference-grid">{c.referenceLinks.map((link,i) => <a href={route(locale, `docs/${referenceTargets[i]}`)}><div><h3>{link.title}</h3><p>{link.description}</p><span class="eyebrow">{locale === 'cn' ? '站内说明与例子' : 'EXPLANATION & EXAMPLES'}</span></div><Icon name="arrow" size={20}/></a>)}</div></section>
+  </main>
+</Layout>

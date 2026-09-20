@@ -1,0 +1,62 @@
+---
+import '@fontsource-variable/manrope';
+import '@fontsource-variable/space-grotesk';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '@fontsource-variable/noto-sans-sc';
+import '../styles/global.css';
+import '../styles/workbench.css';
+import '../styles/themes.css';
+import '../styles/story.css';
+import '../styles/reference.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { content, route, base, type Locale } from '../data/content';
+interface Props { locale: Locale; title?: string; description?: string; path?: string; noindex?: boolean; }
+const { locale, title, description, path = '', noindex = false } = Astro.props;
+const c = content[locale];
+const canonical = new URL(route(locale, path), Astro.site);
+---
+<!doctype html>
+<html lang={locale === 'cn' ? 'zh-CN' : 'en'} data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description || c.description} />
+    <meta name="theme-color" content="#f5f8fc" />
+    <script is:inline>
+      (() => {
+        let saved;
+        try { saved = localStorage.getItem('octoscript-theme'); } catch {}
+        const theme = saved === 'light' || saved === 'dark' ? saved : matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.dataset.theme = theme;
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', theme === 'dark' ? '#0b1017' : '#f5f8fc');
+      })();
+    </script>
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    {noindex ? <meta name="robots" content="noindex" /> : <>
+      <link rel="canonical" href={canonical} />
+      <link rel="alternate" hreflang="en" href={new URL(route('en', path), Astro.site)} />
+      <link rel="alternate" hreflang="zh-CN" href={new URL(route('cn', path), Astro.site)} />
+      <link rel="alternate" hreflang="x-default" href={new URL(route('en', path), Astro.site)} />
+    </>}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Octoscript" />
+    <meta property="og:title" content={title || c.title} />
+    <meta property="og:description" content={description || c.description} />
+    {!noindex && <meta property="og:url" content={canonical} />}
+    <meta property="og:locale" content={locale === 'cn' ? 'zh_CN' : 'en_US'} />
+    <meta name="twitter:card" content="summary" />
+    <title>{title || c.title}</title>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">{c.skip}</a>
+    <Header locale={locale} path={path} />
+    <slot />
+    <Footer locale={locale} />
+    <script>
+      import '../scripts/interactions';
+    </script>
+  </body>
+</html>

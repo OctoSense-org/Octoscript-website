@@ -1,0 +1,24 @@
+---
+import Mark from './Mark.astro';
+import Icon from './Icon.astro';
+import { content, route, repository, type Locale } from '../data/content';
+interface Props { locale: Locale; path: string; }
+const { locale, path } = Astro.props;
+const c = content[locale];
+const links = ['#idea', '#splash', '#platforms', '#flows', 'docs/'];
+---
+<header class="site-header container">
+  <a class="wordmark" href={route(locale)} aria-label="Octoscript"><Mark size={32} /><span>octoscript<span class="brand-period">_</span></span></a>
+  <nav class="desktop-nav" aria-label={locale === 'cn' ? '主导航' : 'Main navigation'}>
+    {links.map((link, i) => <a href={route(locale, link)} aria-current={i === 4 && path.startsWith('docs') ? 'page' : undefined}>{c.nav[i]}</a>)}
+  </nav>
+  <div class="header-actions">
+    <button type="button" class="theme-toggle" data-theme-toggle aria-label={locale === 'cn' ? '切换深浅主题' : 'Toggle color theme'} data-light-label={locale === 'cn' ? '切换到浅色模式' : 'Switch to light mode'} data-dark-label={locale === 'cn' ? '切换到深色模式' : 'Switch to dark mode'}><Icon name="sun" class="sun-icon" size={18}/><Icon name="moon" class="moon-icon" size={18}/></button>
+    <a class="language-link" href={route(locale === 'en' ? 'cn' : 'en', path)} lang={locale === 'en' ? 'zh-CN' : 'en'} aria-label={locale === 'en' ? '切换到中文' : 'Switch to English'}><Icon name="globe" size={15}/>{locale === 'en' ? '中文' : 'EN'}</a>
+    <a class="github-link" href={repository}><Icon name="github" size={17}/><span>GitHub</span><Icon name="diagonal" size={14}/></a>
+    <button class="menu-toggle" type="button" aria-label={c.menu} aria-expanded="false" aria-controls="mobile-nav"><Icon name="menu"/></button>
+  </div>
+  <nav class="mobile-nav" id="mobile-nav" hidden aria-label={locale === 'cn' ? '移动导航' : 'Mobile navigation'}>
+    {links.map((link, i) => <a href={route(locale, link)}>{c.nav[i]}<Icon name="arrow" size={16}/></a>)}
+  </nav>
+</header>
