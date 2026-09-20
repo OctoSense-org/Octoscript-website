@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -14,6 +15,9 @@ jobs:
     timeout-minutes: 15
     env:
       ASTRO_TELEMETRY_DISABLED: '1'
+      # The tested build is the one that gets published, so it carries the production origin.
+      SITE_URL: https://octoscript.org
+      BASE_PATH: /
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -31,3 +35,26 @@ jobs:
           name: browser-test-results
           path: test-results/
           retention-days: 7
+      - uses: actions/upload-pages-artifact@v5
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        with:
+          path: dist/
+
+  deploy:
+    needs: website
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    # Let an in-flight publish finish rather than leaving Pages half-updated.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

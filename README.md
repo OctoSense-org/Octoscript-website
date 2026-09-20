@@ -24,7 +24,7 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-The build checks Astro/TypeScript and writes the static site to `dist/`. Playwright starts its own preview on port 4335, independent of the development server. To test an already running preview, set `PLAYWRIGHT_BASE_URL`. The browser suite covers bilingual navigation, accessibility, mobile layouts, themes, source copying, lazy WASM loading, real native canvas input/state updates and failure recovery. GitHub Actions runs these checks on pushes and pull requests; it does not deploy the site.
+The build checks Astro/TypeScript and writes the static site to `dist/`. Playwright starts its own preview on port 4335, independent of the development server. To test an already running preview, set `PLAYWRIGHT_BASE_URL`. The browser suite covers bilingual navigation, accessibility, mobile layouts, themes, source copying, lazy WASM loading, real native canvas input/state updates and failure recovery. GitHub Actions runs these checks on pushes and pull requests. On `main`, the checked build is then published to GitHub Pages.
 
 ## Content and source ownership
 
@@ -56,7 +56,9 @@ SITE_URL=https://your-domain.example BASE_PATH=/ npm run build
 npm run preview
 ```
 
-Upload `dist/` to a static host. For a project subpath, use `BASE_PATH=/Octoscript-website/`. Routes, assets, Markdown links, sitemap and locale alternatives use that prefix. The default URL remains local until a publishing URL is configured. This repository has no automatic production deployment.
+Upload `dist/` to a static host. For a project subpath, use `BASE_PATH=/Octoscript-website/`. Routes, assets, Markdown links, sitemap and locale alternatives use that prefix. The default URL remains local until a publishing URL is configured.
+
+Production is <https://octoscript.org/>, served by GitHub Pages. `.github/workflows/ci.yml` builds with that origin, runs the full suite against the build, and deploys the same `dist/` on pushes to `main`. It can also be started manually from the Actions tab. The custom domain is set in the repository's Pages settings, so no `CNAME` file is needed.
 
 ## Licenses
 
