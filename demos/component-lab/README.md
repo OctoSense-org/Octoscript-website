@@ -1,5 +1,7 @@
 # Component lab
 
+English | [简体中文](README.zh-CN.md)
+
 A real Rust / Makepad WebAssembly host for the website. Material uses the
 semantic renderer and local numeric state slots. Flutter designs use the
 pinned upstream kit assembled in `src/flutter.octoscript`; they do not run
