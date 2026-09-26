@@ -1,5 +1,7 @@
 # Octoscript website
 
+English | [简体中文](README.zh-CN.md)
+
 The independent bilingual website for [Octoscript](https://github.com/OctoSense-org/Octoscript), maintained in [OctoSense-org/Octoscript-website](https://github.com/OctoSense-org/Octoscript-website). English is at `/`; Simplified Chinese is at `/cn/`.
 
 The site covers the DSL's motivation, syntax, host authority, L0–L3 rendering layers, UI capability levels, Splash, native composition and agent tooling. Eight guides in each language explain the contracts on the page. A searchable component catalog and a real Makepad/WebAssembly lab accompany the design-to-component examples. Light and dark themes are supported.
@@ -64,10 +66,3 @@ Production is <https://octoscript.org/>, served by GitHub Pages. `.github/workfl
 
 The inherited MIT license is retained in `LICENSE` and alongside the upstream snapshots. Fontsource licenses are in `public/font-licenses/`. The WASM distribution includes Makepad's MIT license, Octoscript-Makepad's Apache-2.0 license and bundled font attribution in `public/wasm/component-lab/licenses/` and `THIRD_PARTY_NOTICES.md`.
 
-## 中文
-
-这是独立维护的 Octoscript 双语网站仓库，包含深浅主题、八篇中英文指南、语法与权限边界、L0–L3 分层、组件目录、设计到组件的流程，以及可操作的 Makepad / WASM 演示。
-
-安装 Node.js >= 22.12 后，在本仓库运行 `npm ci` 和 `npm run dev`，访问 **http://localhost:4325/cn/**。运行 `npm run test:unit`、`npm run build` 和 `npm run test:e2e` 可检查链接转换、静态构建、浏览器交互与真实 WASM 控件。
-
-网站所需的文档、示例和 WASM 产物均已纳入本仓库，构建不再依赖上一级 Octoscript 目录。语言仓库文档以带来源记录的快照保存，网站内容在这里维护；更新快照时需同步来源和文件哈希。只有重新编译可选的 WASM 运行时才需要另外准备 Rust 和固定版本的依赖。CI 负责检查，不会自动发布网站。
